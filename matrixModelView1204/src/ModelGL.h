@@ -26,7 +26,7 @@
 #include "Matrices.h"
 #include "glext.h"
 #include "glExtension.h"
-
+#include <vector>
 
 class ModelGL
 {
@@ -89,6 +89,10 @@ public:
 	void drawSub1();                                // draw upper window
 	void drawSub2();                                // draw bottom window
 	bool createShaderPrograms();
+
+	vector<float> modelCoordinateX;
+	vector<float> modelCoordinateY;
+	vector<float> modelCoordinateZ;
 
 	bool CTRDRAWFLAG = false;                               // opengl重绘标志位
 	int THREADCLOSEFLAG = 2;                           // opengl线程结束标志位

@@ -568,8 +568,8 @@ void ModelGL::drawPoints(float pointSize) {
 	glBegin(GL_POINTS);
 	for (int i = 0; i < myControllerFormGL.ROWNUM; i++) {
 
-		glColor4f(0.0f, 0.0f, 0.5*myControllerFormGL.coordinateZ[i] + 0.1, 1.0f);
-		glVertex3f(myControllerFormGL.coordinateX[i], myControllerFormGL.coordinateY[i], 1 - myControllerFormGL.coordinateZ[i]);
+		glColor4f(0.0f, 0.0f, 0.5*modelCoordinateZ[i] + 0.1, 1.0f);
+		glVertex3f(modelCoordinateX[i], modelCoordinateY[i], 1 - modelCoordinateZ[i]);
 	}
 	glEnd();
 	glPopMatrix();

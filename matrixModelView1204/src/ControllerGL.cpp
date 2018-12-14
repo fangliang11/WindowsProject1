@@ -13,6 +13,7 @@
 // UPDATED: 2018-03-01
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <vector>
 #include "ControllerGL.h"
 #include "Log.h"
 #include "ViewFormGL.h"
@@ -81,8 +82,15 @@ int ControllerGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 // handle WM_PAINT
 ///////////////////////////////////////////////////////////////////////////////
+ModelGL modelGL;
+Win::ViewFormGL viewFormGL(&modelGL);
+Win::ControllerFormGL myControllerFormGL(&modelGL, &viewFormGL);
 int ControllerGL::paint()
 {
+	model->modelCoordinateX = myControllerFormGL.coordinateX;
+	model->modelCoordinateY = myControllerFormGL.coordinateY;
+	model->modelCoordinateZ = myControllerFormGL.coordinateZ;
+
 	model->CTRDRAWFLAG = true;
 
 	return 0;
