@@ -21,7 +21,8 @@
 #include "Controller.h"
 #include "ViewGL.h"
 #include "ModelGL.h"
-
+//#include <vector>
+//using namespace std;
 
 namespace Win
 {
@@ -51,7 +52,6 @@ namespace Win
         ModelGL* model;                             // pointer to model component
         ViewGL* view;                               // pointer to view component
         std::thread glThread;                       // opengl rendering thread object
-		std::thread glThread2;
 
         volatile bool loopFlag;                     // rendering loop flag
 

@@ -44,7 +44,7 @@ int ROWNUM;
 
 int readData() {
 
-	ifstream myfile("D:\\MYdata1126.dat");
+	ifstream myfile("D:\\MYdata1.dat");
 	if (!myfile.is_open()) {
 		cout << "Unable to open myfile";
 		system("pause");
@@ -417,19 +417,22 @@ void display()
 	GLfloat pointSize = 5.0f;
 	glPointSize(pointSize);
 
-	glPushMatrix();
-	glRotatef(cameraAngleX, 1.0, 0.0, 0.0);
-	glRotatef(cameraAngleY, 0.0, 1.0, 0.0);
-	glScalef(scaleSizeX, scaleSizeY, scaleSizeZ);
-	glBegin(GL_POINTS);
 	for (int i = 0; i < ROWNUM; i++) {
+
+		glPushMatrix();
+		glRotatef(cameraAngleX, 1.0, 0.0, 0.0);
+		glRotatef(cameraAngleY, 0.0, 1.0, 0.0);
+		glScalef(scaleSizeX, scaleSizeY, scaleSizeZ);
+		glBegin(GL_POINTS);
+		//for (int i = 0; i < ROWNUM; i++) {
 
 		glColor4f(0.0f, 0.0f, 0.5*coordinateZ[i] + 0.1, 1.0f);
 		glVertex3f(coordinateX[i], coordinateY[i], 1 - coordinateZ[i]);
 
+		//}
+		glEnd();
+		glPopMatrix();
 	}
-	glEnd();
-	glPopMatrix();
 
 	cout << "视角变化，重绘图形" << endl;
 	glutSwapBuffers();

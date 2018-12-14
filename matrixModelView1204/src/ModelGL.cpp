@@ -21,8 +21,10 @@
 
 #include <cmath>
 #include "Window.h"
+#include "ControllerGL.h"
 #include "ControllerFormGL.h"
 #include "ModelGL.h"
+#include "ViewGL.h"
 #include "ViewFormGL.h"
 #include "teapot.h"             // 3D mesh of teapot
 #include "cameraSimple.h"       // 3D mesh of camera
@@ -39,7 +41,7 @@ const float CAMERA_DISTANCE = 25.0f;    // camera distance
 
 
 
-// flat shading ===========================================
+// flat shading ===========================================平面着色
 const char* vsSource1 = R"(
 void main()
 {
@@ -55,7 +57,7 @@ void main()
 )";
 
 
-// blinn specular shading =================================
+// blinn specular shading =================================模拟金属镜面着色
 const char* vsSource2 = R"(
 varying vec3 esVertex, esNormal;
 void main()
@@ -131,7 +133,9 @@ ModelGL::~ModelGL()
 // initialize OpenGL states and scene
 ///////////////////////////////////////////////////////////////////////////////
 ModelGL modelGL;
+Win::ViewGL viewGL;
 Win::ViewFormGL viewFormGL(&modelGL);
+Win::ControllerGL myControllerGL(&modelGL, &viewGL);
 Win::ControllerFormGL myControllerFormGL(&modelGL, &viewFormGL);
 
 void ModelGL::init()
@@ -144,7 +148,7 @@ void ModelGL::init()
 	//glEnable(GL_BLEND); //设置混合显示
 
     // enable/disable features
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     glEnable(GL_DEPTH_TEST);
@@ -155,15 +159,15 @@ void ModelGL::init()
     glEnable(GL_SCISSOR_TEST);
 
      // track material ambient and diffuse from surface color, call it before glEnable(GL_COLOR_MATERIAL)
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
+    //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    //glEnable(GL_COLOR_MATERIAL);
 
     glClearColor(bgColor[0], bgColor[1], bgColor[2], bgColor[3]);   // background color
-    glClearStencil(0);                              // clear stencil buffer
-    glClearDepth(1.0f);                             // 0 is near, 1 is far
-    glDepthFunc(GL_LEQUAL);
+    //glClearStencil(0);                              // clear stencil buffer
+    //glClearDepth(1.0f);                             // 0 is near, 1 is far
+    //glDepthFunc(GL_LEQUAL);
 
-	//myControllerFormGL.readData("D:\\MYdata1126.dat");  //此处为初始化时候加载坐标数据
+	//myControllerFormGL.readData("D:\\MYdata1.dat");  //此处为初始化时候加载坐标数据
 
     //initLights();
 }
@@ -513,15 +517,33 @@ void ModelGL::drawSub2()
         glUseProgram(progId2);
         //glDisable(GL_COLOR_MATERIAL);
 
-		if ( CTRDRAWFLAG ) {
+		if (CTRDRAWFLAG ) {
 			glColor3f(0.0f, 1.0f, 1.0f); //蓝色
 			drawPoints(3);   //增加点云
 
-			GLUquadricObj *objCylinder = gluNewQuadric(); //画圆锥
-			glTranslatef(2.0, 2.0, 2.0);
-			gluCylinder(objCylinder, 1.0, 0.5, 3, 10, 5);
+			glPointSize(5);
+			glPushMatrix();
+			glBegin(GL_POINTS);
+			glVertex3d(top, 5.0, 5.0);
+			glEnd();
+			glPopMatrix();
 
 		}
+		else if (!CTRDRAWFLAG) {
+
+			glPointSize(5);
+			glPushMatrix();
+			glBegin(GL_POINTS);
+			glVertex3d(5.0, top, 5.0);
+			glEnd();
+			glPopMatrix();
+
+			glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
+
+		}
+
+
+
         //glEnable(GL_COLOR_MATERIAL);
         glUseProgram(0);    }
     else
@@ -562,19 +584,28 @@ void ModelGL::drawSub2()
 ///////////////////////////////////////////////////////////////////////////////
 void ModelGL::drawPoints(float pointSize) {
 
+	vector<float> modelCoordinateX(myControllerFormGL.coordinateX);
+	vector<float> modelCoordinateY(myControllerFormGL.coordinateY);
+	vector<float> modelCoordinateZ(myControllerFormGL.coordinateZ);
+	int modelROWNUM = myControllerFormGL.ROWNUM;
+
+
+
 	glPointSize(pointSize);
+
 
 	glPushMatrix();
 	glBegin(GL_POINTS);
-	for (int i = 0; i < myControllerFormGL.ROWNUM; i++) {
+
+	for (int i = 0; i < modelROWNUM; i++) {
 
 		glColor4f(0.0f, 0.0f, 0.5*modelCoordinateZ[i] + 0.1, 1.0f);
 		glVertex3f(modelCoordinateX[i], modelCoordinateY[i], 1 - modelCoordinateZ[i]);
 	}
+
 	glEnd();
 	glPopMatrix();
 
-	//MessageBox(NULL, TEXT("run drawpoints"), TEXT("点云"), 0);
 }
 
 
@@ -1050,8 +1081,8 @@ Matrix4 ModelGL::setOrthoFrustum(float l, float r, float b, float t, float n, fl
 bool ModelGL::createShaderPrograms()
 {
     // create 1st shader and program
-    GLuint vsId1 = glCreateShader(GL_VERTEX_SHADER);
-    GLuint fsId1 = glCreateShader(GL_FRAGMENT_SHADER);
+    GLuint vsId1 = glCreateShader(GL_VERTEX_SHADER);//顶点着色器
+    GLuint fsId1 = glCreateShader(GL_FRAGMENT_SHADER);//片段着色器
     progId1 = glCreateProgram();
 
     // load shader sources: flat shader

@@ -123,7 +123,6 @@ LRESULT CALLBACK Win::windowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
         returnValue = ctrl->lButtonDown(wParam, LOWORD(lParam), HIWORD(lParam)); // state, x, y
         //returnValue = ctrl->lButtonDown(wParam, GET_X_LPARAM(lParam), GET_X_LPARAM(lParam)); // state, x, y
 
-		//MessageBox(NULL, TEXT("LEFT mouse DOWN"), TEXT("WM_LBUTTONDOWN消息"), 0);
         break;
 
     case WM_LBUTTONUP:
@@ -140,6 +139,8 @@ LRESULT CALLBACK Win::windowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
     case WM_MBUTTONDOWN:
         returnValue = ctrl->mButtonDown(wParam, LOWORD(lParam), HIWORD(lParam));// state, x, y
+		//MessageBox(NULL, TEXT("MIDDLE mouse DOWN"), TEXT("WM_MBUTTONDOWN消息"), 0);
+
         break;
 
     case WM_MBUTTONUP:

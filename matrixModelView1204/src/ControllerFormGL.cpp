@@ -124,12 +124,12 @@ int ControllerFormGL::command(int id, int command, LPARAM msg)
 			//Win::ControllerGL myControllerGL(&modelGL, &viewGL);
 
 			//数据读取成功并解析后发送绘图消息
-			if (READFINISHFLAG) {
+			//if (READFINISHFLAG) {
 				HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);// 获取主窗口句柄 mainWin
 				HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
 				::SendMessage(hwndGL, WM_PAINT, 0, 0);//发送绘图消息
 
-			}
+			//}
 
 			//InvalidateRect(hwnd, NULL, true);  //使用InvalidateRect函数触发WM_PAINT消息
 
@@ -241,16 +241,17 @@ int ControllerFormGL::readData(string filename) {
 		coordinateZ.push_back(coeffZ * (vectorZ[i] - minZ));
 
 	}
+	//MessageBox(NULL, TEXT("Readdata MYdata1"), TEXT("消息响应"), 0);
 
-	if (ROWNUM = sizeof(coordinateX)) {
-		if(ROWNUM = sizeof(coordinateY)){
-			if (ROWNUM = sizeof(coordinateZ)) {
-				READFINISHFLAG = true;
+	//if (ROWNUM = sizeof(coordinateX)) {
+	//	if(ROWNUM = sizeof(coordinateY)){
+	//		if (ROWNUM = sizeof(coordinateZ)) {
+	//			READFINISHFLAG = true;
 
-			}
-		}
-	}
-	else READFINISHFLAG = false;
+	//		}
+	//	}
+	//}
+	//else READFINISHFLAG = false;
 	//cout << "MaxX and MinX is " << maxX << "    " << minX << endl;
 	//cout << "MaxY and MinY is " << maxY << "    " << minY << endl;
 	//cout << "MaxZ and MinZ is " << maxZ << "    " << minZ << endl;

@@ -27,6 +27,7 @@
 #include "glext.h"
 #include "glExtension.h"
 #include <vector>
+using namespace std;
 
 class ModelGL
 {
@@ -86,17 +87,14 @@ public:
 
     bool isShaderSupported()            { return glslSupported; }
 
-	void drawSub1();                                // draw upper window
-	void drawSub2();                                // draw bottom window
-	bool createShaderPrograms();
+	//void drawSub1();                                // draw upper window
+	//void drawSub2();                                // draw bottom window
+	//bool createShaderPrograms();
 
-	vector<float> modelCoordinateX;
-	vector<float> modelCoordinateY;
-	vector<float> modelCoordinateZ;
 
 	bool CTRDRAWFLAG = false;                               // opengl重绘标志位
 	int THREADCLOSEFLAG = 2;                           // opengl线程结束标志位
-
+	GLdouble  top;
 
 protected:
 
@@ -115,15 +113,15 @@ private:
 	void drawGrid(coordpoint& pt1, coordpoint& pt2, coordpoint& pt3, coordpoint& pt4, coordpoint& pt5, coordpoint& pt6, int num);
 	void drawAxis(float size);                      // draw 3 axis
 	void drawPoints(float pointSize);
-    //void drawSub1();                                // draw upper window
-    //void drawSub2();                                // draw bottom window
+    void drawSub1();                                // draw upper window
+    void drawSub2();                                // draw bottom window
     void drawFrustum(float fovy, float aspect, float near, float far);
     Matrix4 setFrustum(float l, float r, float b, float t, float n, float f);
     Matrix4 setFrustum(float fovy, float ratio, float n, float f);
     Matrix4 setOrthoFrustum(float l, float r, float b, float t, float n=-1, float f=1);
     void updateModelMatrix();
     void updateViewMatrix();
-    //bool createShaderPrograms();
+    bool createShaderPrograms();
     std::string getShaderStatus(GLuint shader);     // return GLSL compile error log
     std::string getProgramStatus(GLuint program);   // return GLSL link error log
 

@@ -73,6 +73,9 @@ int ControllerGL::create()
 	Win::log(L"Created a rendering thread for OpenGL.");
 	
 	//MessageBox(NULL, TEXT("opengl thread 被 创建"), TEXT("ControllerGL中 create函数触发"), 0);
+	Win::ViewFormGL viewFormGL(model);
+	Win::ControllerFormGL myControllerFormGL(model, &viewFormGL);
+	//myControllerFormGL.readData("D:\\MYdata1.dat");  //此处为初始化时候加载坐标数据
 
 
     return 0;
@@ -82,14 +85,18 @@ int ControllerGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 // handle WM_PAINT
 ///////////////////////////////////////////////////////////////////////////////
-ModelGL modelGL;
-Win::ViewFormGL viewFormGL(&modelGL);
-Win::ControllerFormGL myControllerFormGL(&modelGL, &viewFormGL);
 int ControllerGL::paint()
 {
-	model->modelCoordinateX = myControllerFormGL.coordinateX;
-	model->modelCoordinateY = myControllerFormGL.coordinateY;
-	model->modelCoordinateZ = myControllerFormGL.coordinateZ;
+	Win::ViewFormGL viewFormGL(model);
+	Win::ControllerFormGL myControllerFormGL(model, &viewFormGL);
+
+	//model->modelCoordinateX = myControllerFormGL.coordinateX;
+	//model->modelCoordinateY = myControllerFormGL.coordinateY;
+	//model->modelCoordinateZ = myControllerFormGL.coordinateZ;
+	//model->modelROWNUM = myControllerFormGL.ROWNUM;
+
+
+	model->top = 3;
 
 	model->CTRDRAWFLAG = true;
 
@@ -131,22 +138,6 @@ void ControllerGL::runThread()
     model->setWindowSize(rect.right, rect.bottom);  //设置渲染窗口的尺寸
     Win::log(L"Initialized OpenGL window size.");
 
-
-	//if (CTRDRAWFLAG < THREADCLOSEFLAG) {
-
-
-	//	MessageBox(NULL, TEXT("线程开始运行, THREADCLOSEFLAG尚未设置"), TEXT("run thread 函数触发"), 0);
-	//}
-
-	//
-	//
-	//
-	//if (CTRDRAWFLAG > THREADCLOSEFLAG) {
-
-
-	//	MessageBox(NULL, TEXT("线程开始运行, 且THREADCLOSEFLAG设置成功"), TEXT("run thread 函数触发"), 0);
-	//}
-	
 	// rendering loop 渲染循环
     Win::log(L"Entering OpenGL rendering thread...");
     while(loopFlag)
@@ -154,12 +145,7 @@ void ControllerGL::runThread()
         //std::this_thread::yield();      // yield to other processes or threads
         std::this_thread::sleep_for(std::chrono::milliseconds(30)); // yield to other processes or threads
 
-		//ModelGL modelGL;
-		//Win::ViewFormGL viewFormGL(&modelGL);
-		//Win::ControllerFormGL myControllerFormGL(&modelGL, &viewFormGL);
-
 		model->draw();
-
 		view->swapBuffers();  //缓存区交换
     }
 
@@ -194,6 +180,8 @@ int ControllerGL::lButtonDown(WPARAM state, int x, int y)
 
 int ControllerGL::mButtonDown(WPARAM state, int x, int y)  
 {
+	model->top = 5;
+
 	model->CTRDRAWFLAG = false; //绘图重置
 
 	return 0;
