@@ -27,6 +27,10 @@
 // function declarations
 int mainMessageLoop(HACCEL hAccelTable=0);
 
+vector<float> coordinateX;
+vector<float> coordinateY;
+vector<float> coordinateZ;
+int ROWNUM;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -51,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
 
     // create main window   创建 main 窗口
     Win::ControllerMain mainCtrl;
-	Win::ControllerFormGL FormGLCtrl(&modelGL, &viewFormGL);
+	//Win::ControllerFormGL FormGLCtrl(&modelGL, &viewFormGL);
 
     Win::Window mainWin(hInst, L"三维点云图生成软件", 0, &mainCtrl); //注册 mainWin 窗口
     mainWin.setWindowStyleEx(WS_EX_WINDOWEDGE);  //设置窗口样式

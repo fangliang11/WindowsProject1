@@ -1,35 +1,28 @@
+#include <Windows.h>
 #include<iostream>
 #include<vector>
+#include <string>
+#include <stdio.h>
+#include "allTest.h"
+
 using namespace std;
+
+
+Stu getStu(int x, int y) {
+	Stu result;
+	result.a = x;
+	result.b = y;
+	return result;
+}
+
 int main()
 {
-	vector<int> a;
-	a.push_back(1);
-	a.push_back(2);
-	a.push_back(3);
-	vector<int> b;
-	b.push_back(4);
-	b.push_back(5);
+	int a = 2, b = 3;
+	Stu test = getStu(a, b);
+	printf("%d %d\n", test.a, test.b);
 
-	for (int i = 0; i < a.size(); i++)
-	{
-		cout << "vector a 中的元素： " <<a.at(i) << endl;
-	}
-	for (int i = 0; i < b.size(); i++)
-	{
-		cout << "vector b 中的元素： " << b.at(i) << endl;
-	}
-	b = a;
-	for (int i = 0; i < b.size(); i++)
-	{
-		cout << "赋值后vector b 中的元素： " << b.at(i) << endl;
-	}
-	a.at(0) = 666;
-	for (int i = 0; i < b.size(); i++)
-	{
-		cout << "用666赋值后vector b 中的元素： " << b.at(i) << endl;
-	}
+
 
 	system("pause");
-	return 1;
+	return 0;
 }

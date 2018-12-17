@@ -172,6 +172,7 @@
     <ClCompile Include="Matrices.cpp" />
     <ClCompile Include="ModelGL.cpp" />
     <ClCompile Include="procedure.cpp" />
+    <ClCompile Include="ReadData.cpp" />
     <ClCompile Include="ViewFormGL.cpp" />
     <ClCompile Include="ViewGL.cpp" />
     <ClCompile Include="wcharUtil.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Matrices.h" />
     <ClInclude Include="ModelGL.h" />
     <ClInclude Include="procedure.h" />
+    <ClInclude Include="ReadData.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="teapot.h" />
     <ClInclude Include="ViewFormGL.h" />

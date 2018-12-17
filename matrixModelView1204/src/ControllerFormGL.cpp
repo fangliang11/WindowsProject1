@@ -21,6 +21,7 @@ using namespace std;
 #include "ControllerFormGL.h"
 #include "resource.h"
 #include "Log.h"
+#include "ReadData.h"
 using namespace Win;
 
 INT_PTR CALLBACK aboutDialogProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -68,7 +69,8 @@ int ControllerFormGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 // handle WM_COMMAND 选择数据文件对话框
 ///////////////////////////////////////////////////////////////////////////////
-
+ReadData myData;
+string filename;
 
 int ControllerFormGL::command(int id, int command, LPARAM msg)
 {
@@ -101,14 +103,9 @@ int ControllerFormGL::command(int id, int command, LPARAM msg)
 	case IDC_BUTTON_OPEN:    
 		if (command == BN_CLICKED)   //打开文件按钮
 		{
-			//ModelGL modelGL;
-			//ViewGL viewGL;
-			//Win::ControllerGL myControllerGL(&modelGL, &viewGL);
-
-			//modelGL.CTRDRAWFLAG = false;  //设置回初始值
-
 			//打开数据文件
-			selectData();
+			filename = myData.selectFile();
+			//myData.show(filename);
 
 			HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);
 			HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
@@ -119,147 +116,24 @@ int ControllerFormGL::command(int id, int command, LPARAM msg)
 	case IDC_BUTTON_DRAW:
 		if (command == BN_CLICKED)    // 重绘按钮
 		{
-			//ModelGL modelGL;
-			//ViewGL viewGL;
-			//Win::ControllerGL myControllerGL(&modelGL, &viewGL);
+			myData.readFile(filename, 5,ROWNUM, coordinateX, coordinateY, coordinateZ);
 
-			//数据读取成功并解析后发送绘图消息
-			//if (READFINISHFLAG) {
-				HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);// 获取主窗口句柄 mainWin
-				HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
-				::SendMessage(hwndGL, WM_PAINT, 0, 0);//发送绘图消息
-
-			//}
+			HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);// 获取主窗口句柄 mainWin
+			HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
+			::SendMessage(hwndGL, WM_PAINT, 0, 0);//发送绘图消息
 
 			//InvalidateRect(hwnd, NULL, true);  //使用InvalidateRect函数触发WM_PAINT消息
-
 		}
 	case IDC_BUTTON_CALCULATE:
 		if (command == BN_CLICKED)
 		{
 			//计算坐标最大最小值
-
 		}
 		break;
     }
 
     return 0;
 }
-
-int ControllerFormGL::selectData() {
-
-	OPENFILENAME ofn = { 0 };
-	TCHAR strFilename[MAX_PATH] = { 0 };//用于接收文件名
-	ofn.lStructSize = sizeof(OPENFILENAME);//结构体大小
-	ofn.hwndOwner = NULL;//拥有着窗口句柄，为NULL表示对话框是非模态的，实际应用中一般都要有这个句柄
-	ofn.lpstrFilter = TEXT("所有文件\0*.*\0.txt/.dat Flie\0*.txt;*.dat\0\0");//设置过滤
-	ofn.nFilterIndex = 1;//过滤器索引
-	ofn.lpstrFile = strFilename;//接收返回的文件名，注意第一个字符需要为NULL
-	ofn.nMaxFile = sizeof(strFilename);//缓冲区长度
-	ofn.lpstrInitialDir = NULL;//初始目录为默认
-	ofn.lpstrTitle = TEXT("请选择数据文件");//使用系统默认标题留空即可
-	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;//文件、目录必须存在，隐藏只读选项
-	if (GetOpenFileName(&ofn))
-	{
-		readData("D:\\MYdata1126.dat");
-		SELECTFINISHFLAG = true;
-		MessageBox(NULL, strFilename, TEXT("已选择数据"), 0);
-	}
-
-	return 0;
-}
-
-int ControllerFormGL::readData(string filename) {
-
-	ifstream myfile(filename);
-	if (!myfile.is_open()) {
-		MessageBox(NULL, TEXT("文件打开失败"), TEXT("错误"), 0);
-
-		return 1;
-	}
-
-	vector<string> vec;
-	vector<float> vectorX;
-	vector<float> vectorY;
-	vector<float> vectorZ;
-
-	string temp;
-	while (getline(myfile, temp))                    //利用getline（）读取每一行，并按照行为单位放入到vector
-	{
-		vec.push_back(temp);
-	}
-	myfile.close();
-	ROWNUM = vec.size();
-	//cout << " the num of row is: " << ROWNUM << endl;
-	for (auto it = vec.begin(); it != vec.end(); it++)
-	{
-		//cout << *it << endl;
-		istringstream is(*it);                    //用每一行的数据初始化一个字符串输入流；
-		string s;
-		int pam = 1;                              //从第一列开始
-
-		while (is >> s)                          //以空格为界，把istringstream中数据取出放入到依次s中
-		{
-			if (pam == 3)                       //获取第 P 列的数据
-			{
-				float r = atof(s.c_str());     //做数据类型转换，将string类型转换成float
-				vectorX.push_back(r);
-			}
-			if (pam == 4) {
-				float y = atof(s.c_str());
-				vectorY.push_back(y);
-			}
-			if (pam == 5) {
-				float z = atof(s.c_str());
-				vectorZ.push_back(z);
-			}
-
-			pam++;
-
-		}
-	}
-
-	float maxX, maxY, maxZ, minX, minY, minZ;
-	maxX = *max_element(begin(vectorX), end(vectorX));
-	minX = *min_element(begin(vectorX), end(vectorX));
-
-	maxY = *max_element(begin(vectorY), end(vectorY));
-	minY = *min_element(begin(vectorY), end(vectorY));
-
-	maxZ = *max_element(begin(vectorZ), end(vectorZ));
-	minZ = *min_element(begin(vectorZ), end(vectorZ));
-
-	for (int i = 0; i < ROWNUM; i++) {
-		ModelGL  myModelGL;
-		float coeffX = 1.5*myModelGL.AXES_LEN / (maxX - minX); //求坐标系下的坐标数值
-		coordinateX.push_back(coeffX * vectorX[i]);
-
-		float coeffY = 1.5*myModelGL.AXES_LEN / (maxY - minY);
-		coordinateY.push_back(coeffY * vectorY[i]);
-
-		float coeffZ = 2 / (maxZ - minZ);  ////深度的变化范围对应坐标系Z轴2个单位的长度
-		coordinateZ.push_back(coeffZ * (vectorZ[i] - minZ));
-
-	}
-	//MessageBox(NULL, TEXT("Readdata MYdata1"), TEXT("消息响应"), 0);
-
-	//if (ROWNUM = sizeof(coordinateX)) {
-	//	if(ROWNUM = sizeof(coordinateY)){
-	//		if (ROWNUM = sizeof(coordinateZ)) {
-	//			READFINISHFLAG = true;
-
-	//		}
-	//	}
-	//}
-	//else READFINISHFLAG = false;
-	//cout << "MaxX and MinX is " << maxX << "    " << minX << endl;
-	//cout << "MaxY and MinY is " << maxY << "    " << minY << endl;
-	//cout << "MaxZ and MinZ is " << maxZ << "    " << minZ << endl;
-
-	return 0;
-}
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // handle horizontal scroll notification

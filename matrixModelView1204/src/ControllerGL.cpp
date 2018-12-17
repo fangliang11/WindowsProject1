@@ -71,12 +71,6 @@ int ControllerGL::create()
     
     loopFlag = true;
 	Win::log(L"Created a rendering thread for OpenGL.");
-	
-	//MessageBox(NULL, TEXT("opengl thread 被 创建"), TEXT("ControllerGL中 create函数触发"), 0);
-	Win::ViewFormGL viewFormGL(model);
-	Win::ControllerFormGL myControllerFormGL(model, &viewFormGL);
-	//myControllerFormGL.readData("D:\\MYdata1.dat");  //此处为初始化时候加载坐标数据
-
 
     return 0;
 }
@@ -87,8 +81,8 @@ int ControllerGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 int ControllerGL::paint()
 {
-	Win::ViewFormGL viewFormGL(model);
-	Win::ControllerFormGL myControllerFormGL(model, &viewFormGL);
+	//Win::ViewFormGL viewFormGL(model);
+	//Win::ControllerFormGL myControllerFormGL(model, &viewFormGL);
 
 	//model->modelCoordinateX = myControllerFormGL.coordinateX;
 	//model->modelCoordinateY = myControllerFormGL.coordinateY;

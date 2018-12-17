@@ -132,11 +132,6 @@ ModelGL::~ModelGL()
 ///////////////////////////////////////////////////////////////////////////////
 // initialize OpenGL states and scene
 ///////////////////////////////////////////////////////////////////////////////
-ModelGL modelGL;
-Win::ViewGL viewGL;
-Win::ViewFormGL viewFormGL(&modelGL);
-Win::ControllerGL myControllerGL(&modelGL, &viewGL);
-Win::ControllerFormGL myControllerFormGL(&modelGL, &viewFormGL);
 
 void ModelGL::init()
 {
@@ -171,8 +166,6 @@ void ModelGL::init()
 
     //initLights();
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // initialize GLSL programs
@@ -520,27 +513,19 @@ void ModelGL::drawSub2()
 		if (CTRDRAWFLAG ) {
 			glColor3f(0.0f, 1.0f, 1.0f); //蓝色
 			drawPoints(3);   //增加点云
-
-			glPointSize(5);
-			glPushMatrix();
-			glBegin(GL_POINTS);
-			glVertex3d(top, 5.0, 5.0);
-			glEnd();
-			glPopMatrix();
-
 		}
-		else if (!CTRDRAWFLAG) {
+		//else if (!CTRDRAWFLAG) {
 
-			glPointSize(5);
-			glPushMatrix();
-			glBegin(GL_POINTS);
-			glVertex3d(5.0, top, 5.0);
-			glEnd();
-			glPopMatrix();
+		//	glPointSize(5);
+		//	glPushMatrix();
+		//	glBegin(GL_POINTS);
+		//	glVertex3d(5.0, top, 5.0);
+		//	glEnd();
+		//	glPopMatrix();
 
-			glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
+		//	glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
 
-		}
+		//}
 
 
 
@@ -584,25 +569,18 @@ void ModelGL::drawSub2()
 ///////////////////////////////////////////////////////////////////////////////
 void ModelGL::drawPoints(float pointSize) {
 
-	vector<float> modelCoordinateX(myControllerFormGL.coordinateX);
-	vector<float> modelCoordinateY(myControllerFormGL.coordinateY);
-	vector<float> modelCoordinateZ(myControllerFormGL.coordinateZ);
-	int modelROWNUM = myControllerFormGL.ROWNUM;
-
-
+	modelCoordinateX = coordinateX;
+	modelCoordinateY = coordinateY;
+	modelCoordinateZ = coordinateZ;
+	modelROWNUM = ROWNUM;
 
 	glPointSize(pointSize);
-
-
 	glPushMatrix();
 	glBegin(GL_POINTS);
-
 	for (int i = 0; i < modelROWNUM; i++) {
-
 		glColor4f(0.0f, 0.0f, 0.5*modelCoordinateZ[i] + 0.1, 1.0f);
 		glVertex3f(modelCoordinateX[i], modelCoordinateY[i], 1 - modelCoordinateZ[i]);
 	}
-
 	glEnd();
 	glPopMatrix();
 
