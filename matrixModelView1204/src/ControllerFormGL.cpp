@@ -71,6 +71,7 @@ int ControllerFormGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 ReadData myData;
 string filename;
+int numX=3, numY=4, numZ=5;
 
 int ControllerFormGL::command(int id, int command, LPARAM msg)
 {
@@ -105,33 +106,57 @@ int ControllerFormGL::command(int id, int command, LPARAM msg)
 		{
 			//打开数据文件
 			filename = myData.selectFile();
-			//myData.show(filename);
+			model->CTRDRAWFLAG = false; //绘图重置
 
-			HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);
-			HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
-			::SendMessage(hwndGL, WM_MBUTTONDOWN, 0, 0); //绘图标志位复位
+			//HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);
+			//HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
+			//::SendMessage(hwndGL, WM_MBUTTONDOWN, 0, 0); //绘图标志位复位
 
 		}
 		break;
 	case IDC_BUTTON_DRAW:
 		if (command == BN_CLICKED)    // 重绘按钮
 		{
-			myData.readFile(filename, 5,ROWNUM, coordinateX, coordinateY, coordinateZ);
+			//myData.readFile(filename, 5,ROWNUM, coordinateX, coordinateY, coordinateZ);
+			myData.readFile(filename, 5, numX, numY, numZ, ROWNUM, coordinateX, coordinateY, coordinateZ);
 
-			HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);// 获取主窗口句柄 mainWin
-			HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
-			::SendMessage(hwndGL, WM_PAINT, 0, 0);//发送绘图消息
+			model->modelCoordinateX = coordinateX;
+			model->modelCoordinateY = coordinateY;
+			model->modelCoordinateZ = coordinateZ;
+			model->modelROWNUM = ROWNUM;
+			model->CTRDRAWFLAG = true;
+
+			//HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);// 获取主窗口句柄 mainWin
+			//HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
+			//::SendMessage(hwndGL, WM_PAINT, 0, 0);//发送绘图消息
 
 			//InvalidateRect(hwnd, NULL, true);  //使用InvalidateRect函数触发WM_PAINT消息
 		}
-	case IDC_BUTTON_CALCULATE:
+		break;
+	case IDC_COMBO_X:  // 选择 X 轴坐标
+		if (command == CBN_SELENDOK)
+		{
+			numX = 0;
+			numX = view->getComboSelect(IDC_COMBO_X) + 1;
+		}
+		break;
+	case IDC_COMBO_Y:  // 选择 Y 轴坐标
 		if (command == BN_CLICKED)
 		{
-			//计算坐标最大最小值
+			numY = 0;
+			numY = view->getComboSelect(IDC_COMBO_Y) + 1;
+
+		}
+		break;
+	case IDC_COMBO_Z:  // 选择 Z 轴坐标
+		if (command == BN_CLICKED)
+		{
+			numZ = 0;
+			numZ = view->getComboSelect(IDC_COMBO_Z) + 1;
+
 		}
 		break;
     }
-
     return 0;
 }
 

@@ -514,20 +514,6 @@ void ModelGL::drawSub2()
 			glColor3f(0.0f, 1.0f, 1.0f); //蓝色
 			drawPoints(3);   //增加点云
 		}
-		//else if (!CTRDRAWFLAG) {
-
-		//	glPointSize(5);
-		//	glPushMatrix();
-		//	glBegin(GL_POINTS);
-		//	glVertex3d(5.0, top, 5.0);
-		//	glEnd();
-		//	glPopMatrix();
-
-		//	glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
-
-		//}
-
-
 
         //glEnable(GL_COLOR_MATERIAL);
         glUseProgram(0);    }
@@ -568,11 +554,6 @@ void ModelGL::drawSub2()
 //生成点云
 ///////////////////////////////////////////////////////////////////////////////
 void ModelGL::drawPoints(float pointSize) {
-
-	modelCoordinateX = coordinateX;
-	modelCoordinateY = coordinateY;
-	modelCoordinateZ = coordinateZ;
-	modelROWNUM = ROWNUM;
 
 	glPointSize(pointSize);
 	glPushMatrix();

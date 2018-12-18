@@ -28,6 +28,7 @@ namespace Win
         void setViewMatrix(float x, float y, float z, float p, float h, float r);  //设置视图矩阵
         void setModelMatrix(float x, float y, float z, float rx, float ry, float rz);  //设置模型矩阵
         void updateMatrices();
+		int getComboSelect(int ComboBoxID);
 
     protected:
 
@@ -67,6 +68,14 @@ namespace Win
         Win::Trackbar sliderModelRotZ;
         Win::TextBox  textModelGL;
 
+		//  OpenGL绘图区控件
+		Win::Button   buttonOpenFile;
+		Win::Button   buttonReDraw;
+		Win::ComboBox comboboxCoordinateX;
+		Win::ComboBox comboboxCoordinateY;
+		Win::ComboBox comboboxCoordinateZ;
+		//Win::EditBox  editboxFileName;
+		//Win::TextBox  textboxFileName;
         Win::Button buttonAbout;
 
         // matrices

@@ -92,7 +92,6 @@ int ControllerGL::paint()
 
 	model->top = 3;
 
-	model->CTRDRAWFLAG = true;
 
 	return 0;
 }
@@ -176,7 +175,6 @@ int ControllerGL::mButtonDown(WPARAM state, int x, int y)
 {
 	model->top = 5;
 
-	model->CTRDRAWFLAG = false; //»æÍ¼ÖØÖÃ
 
 	return 0;
 }

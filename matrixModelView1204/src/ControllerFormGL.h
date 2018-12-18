@@ -18,10 +18,6 @@
 #include "ModelGL.h"
 using namespace std;
 
-extern vector<float> coordinateX;
-extern vector<float> coordinateY;
-extern vector<float> coordinateZ;
-extern int ROWNUM;
 
 namespace Win
 {
@@ -40,6 +36,10 @@ namespace Win
 
 		bool READFINISHFLAG = false;
 		bool SELECTFINISHFLAG = false;
+		vector<float> coordinateX;
+		vector<float> coordinateY;
+		vector<float> coordinateZ;
+		int ROWNUM;
 
     private:
         ModelGL* model;                             // pointer to model component

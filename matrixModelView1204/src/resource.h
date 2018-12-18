@@ -116,6 +116,7 @@
 #define IDC_MIN_Z                       1126
 #define IDC_MFCBUTTON1                  1127
 #define IDC_EDITFILENAME                1128
+#define IDC_EDIT_FILENAME               1128
 #define IDC_BUTTON_OPEN                 1129
 #define IDC_BUTTON_DRAW                 1130
 #define ID_40003                        40003

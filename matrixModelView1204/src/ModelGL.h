@@ -29,11 +29,6 @@
 #include <vector>
 using namespace std;
 
-extern vector<float> coordinateX;
-extern vector<float> coordinateY;
-extern vector<float> coordinateZ;
-extern int ROWNUM;
-
 class ModelGL
 {
 public:

@@ -13,6 +13,8 @@ public:
 
 	string selectFile();
 	int readFile(string filename, int AXES_LEN,int &ROWNUM, vector<float> &x, vector<float> &y, vector<float> &z);
+	int readFile(string filename, int AXES_LEN, int column_num_X, int column_num_Y, int column_num_Z, int &ROWNUM, vector<float> &x, vector<float> &y, vector<float> &z);
+
 	void show(string selectfilename);
 	void selectCoordinate(); //选择数据列
 	

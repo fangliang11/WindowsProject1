@@ -27,11 +27,6 @@
 // function declarations
 int mainMessageLoop(HACCEL hAccelTable=0);
 
-vector<float> coordinateX;
-vector<float> coordinateY;
-vector<float> coordinateZ;
-int ROWNUM;
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // main function of a windows application

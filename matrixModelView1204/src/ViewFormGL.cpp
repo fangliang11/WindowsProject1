@@ -8,6 +8,7 @@
 // UPDATED: 2018-04-13
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <string>
 #include <sstream>
 #include <iomanip>
 #include "ViewFormGL.h"
@@ -73,7 +74,7 @@ void ViewFormGL::initControls(HWND handle)
     sliderViewPosX.set(handle, IDC_SLIDER_VIEW_PX);
     sliderViewPosX.setRange(0, SLIDER_POS_RANGE);
     sliderViewPosX.setPos(SLIDER_POS_SHIFT);
-    textViewPosX.setText(toWchar(sliderViewPosX.getPos() - SLIDER_POS_SHIFT));
+    textViewPosX.setText(toWchar(sliderViewPosX.getPos() - SLIDER_POS_SHIFT));//显示slider控件的当前位置
 
     sliderViewPosY.set(handle, IDC_SLIDER_VIEW_PY);
     sliderViewPosY.setRange(0, SLIDER_POS_RANGE);
@@ -129,6 +130,29 @@ void ViewFormGL::initControls(HWND handle)
     sliderModelRotZ.setRange(0, SLIDER_ROT_RANGE);
     sliderModelRotZ.setPos(SLIDER_ROT_SHIFT);
     textModelRotZ.setText(toWchar(sliderModelRotZ.getPos() - SLIDER_ROT_SHIFT));
+
+	//openGL绘图区控件初始化
+	buttonOpenFile.set(handle, IDC_BUTTON_OPEN);
+	buttonReDraw.set(handle, IDC_BUTTON_DRAW);
+	//editboxFileName(handle, IDC_EDIT_FILENAME);
+	comboboxCoordinateX.set(handle, IDC_COMBO_X);
+	comboboxCoordinateY.set(handle, IDC_COMBO_Y);
+	comboboxCoordinateZ.set(handle, IDC_COMBO_Z);
+
+	string strTemp[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+	comboboxCoordinateX.resetContent(); //清除现有内容
+	comboboxCoordinateY.resetContent();
+	comboboxCoordinateZ.resetContent();
+
+	for (int i = 0; i < 13; i++) {
+		wstring widstr = wstring(strTemp[i].begin(), strTemp[i].end());
+		const wchar_t *pwidstr = widstr.c_str();
+		comboboxCoordinateX.addString(pwidstr);   //设置下拉列表
+		comboboxCoordinateY.addString(pwidstr);
+		comboboxCoordinateZ.addString(pwidstr);
+		*pwidstr++;
+	}
+
 
     // elements for view matrix
     mv[0].set(handle, IDC_M_V_0);
@@ -189,6 +213,28 @@ void ViewFormGL::initControls(HWND handle)
     textModelGL.setFont(L"Courier New", 9);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+// 获取组合框的选中值
+///////////////////////////////////////////////////////////////////////////////
+int ViewFormGL::getComboSelect(int ComboBoxID) {
+
+	int numberX, numberY, numberZ;
+
+	if (ComboBoxID == IDC_COMBO_X) {
+		numberX = comboboxCoordinateX.getCurrentSelection();
+		return numberX;
+	}
+	if (ComboBoxID == IDC_COMBO_Y) {
+		numberY = comboboxCoordinateY.getCurrentSelection();
+		return numberY;
+	}
+	if (ComboBoxID == IDC_COMBO_Z) {
+		numberZ = comboboxCoordinateZ.getCurrentSelection();
+		return numberZ;
+	}
+
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

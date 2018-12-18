@@ -41,10 +41,11 @@ vector<float> coordinateX;
 vector<float> coordinateY;
 vector<float> coordinateZ;
 int ROWNUM;
+int columnX = 3, columnY=4, columnZ=5;
 
-int readData() {
+int readData(int numX, int numY, int numZ) {
 
-	ifstream myfile("D:\\MYdata1.dat");
+	ifstream myfile("D:\\MYdata1126.dat");
 	if (!myfile.is_open()) {
 		cout << "Unable to open myfile";
 		system("pause");
@@ -73,16 +74,16 @@ int readData() {
 
 		while (is >> s)                          //以空格为界，把istringstream中数据取出放入到依次s中
 		{
-			if (pam == 3)                       //获取第 P 列的数据
+			if (pam == numX)                       //获取第 P 列的数据
 			{
 				float r = atof(s.c_str());     //做数据类型转换，将string类型转换成float
 				vectorX.push_back(r);
 			}
-			if (pam == 4) {
+			if (pam == numY) {
 				float y = atof(s.c_str());
 				vectorY.push_back(y);
 			}
-			if (pam == 5) {
+			if (pam == numZ) {
 				float z = atof(s.c_str());
 				vectorZ.push_back(z);
 			}
@@ -511,8 +512,8 @@ int main(int argc, char*argv[])
 	glutCreateWindow("三维坐标系");
 
 	init();
-	//readFile();
-	readData();
+
+	readData(columnX, columnY, columnZ);
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
