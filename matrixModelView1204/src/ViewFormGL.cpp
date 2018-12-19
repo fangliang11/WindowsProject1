@@ -134,7 +134,7 @@ void ViewFormGL::initControls(HWND handle)
 	//openGL绘图区控件初始化
 	buttonOpenFile.set(handle, IDC_BUTTON_OPEN);
 	buttonReDraw.set(handle, IDC_BUTTON_DRAW);
-	//editboxFileName(handle, IDC_EDIT_FILENAME);
+	editboxFileName.set(handle, IDC_EDIT_FILENAME);
 	comboboxCoordinateX.set(handle, IDC_COMBO_X);
 	comboboxCoordinateY.set(handle, IDC_COMBO_Y);
 	comboboxCoordinateZ.set(handle, IDC_COMBO_Z);
@@ -152,7 +152,6 @@ void ViewFormGL::initControls(HWND handle)
 		comboboxCoordinateZ.addString(pwidstr);
 		*pwidstr++;
 	}
-
 
     // elements for view matrix
     mv[0].set(handle, IDC_M_V_0);
@@ -236,6 +235,31 @@ int ViewFormGL::getComboSelect(int ComboBoxID) {
 
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+// 设置文本编辑框内容
+///////////////////////////////////////////////////////////////////////////////
+void ViewFormGL::setEditText(string filename) {
+
+	std::wstring widestr = std::wstring(filename.begin(), filename.end());  //  string 转 wchar_t
+	const wchar_t* widecstr = widestr.c_str();
+	editboxFileName.setText(widecstr);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// 获取文本编辑框内容
+///////////////////////////////////////////////////////////////////////////////
+string ViewFormGL::getEditText() {
+	int length;
+	length = editboxFileName.getTextLength();
+	wchar_t* widecstr;
+	editboxFileName.getText(widecstr, length);
+	wstring ws(widecstr);                          // wchar_t  转  string
+	string filename(ws.begin(), ws.end());
+
+	return filename;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // update trackbars

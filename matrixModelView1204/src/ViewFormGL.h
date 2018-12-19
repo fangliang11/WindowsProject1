@@ -14,6 +14,8 @@
 #include <windows.h>
 #include "Controls.h"
 #include "ModelGL.h"
+using namespace std;
+
 
 namespace Win
 {
@@ -29,7 +31,9 @@ namespace Win
         void setModelMatrix(float x, float y, float z, float rx, float ry, float rz);  //…Ë÷√ƒ£–Õæÿ’Û
         void updateMatrices();
 		int getComboSelect(int ComboBoxID);
-
+		void setEditText(string filename);
+		string getEditText();
+		
     protected:
 
     private:
@@ -74,8 +78,7 @@ namespace Win
 		Win::ComboBox comboboxCoordinateX;
 		Win::ComboBox comboboxCoordinateY;
 		Win::ComboBox comboboxCoordinateZ;
-		//Win::EditBox  editboxFileName;
-		//Win::TextBox  textboxFileName;
+		Win::EditBox  editboxFileName;
         Win::Button buttonAbout;
 
         // matrices

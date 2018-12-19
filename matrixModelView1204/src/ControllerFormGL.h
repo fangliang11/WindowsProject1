@@ -35,7 +35,7 @@ namespace Win
         int timer(WPARAM eventId, LPARAM callback); // for WM_TIMER
 
 		bool READFINISHFLAG = false;
-		bool SELECTFINISHFLAG = false;
+		bool SELECTFINISHFLAG;
 		vector<float> coordinateX;
 		vector<float> coordinateY;
 		vector<float> coordinateZ;

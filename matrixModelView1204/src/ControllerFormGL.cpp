@@ -61,6 +61,8 @@ int ControllerFormGL::create()
     model->setViewMatrix(0, 0, 10, 0, 0, 0);
     view->setViewMatrix(0, 0, 10, 0, 0, 0);
 
+	SELECTFINISHFLAG = false;
+
     return 0;
 }
 
@@ -107,16 +109,21 @@ int ControllerFormGL::command(int id, int command, LPARAM msg)
 			//打开数据文件
 			filename = myData.selectFile();
 			model->CTRDRAWFLAG = false; //绘图重置
+			view->setEditText(filename);
 
 			//HWND hwnd = FindWindow(L"三维点云图生成软件", NULL);
 			//HWND hwndGL = GetWindow(hwnd, GW_CHILD);//获取 glWin 窗口的句柄, 即OpenGL窗口的句柄
 			//::SendMessage(hwndGL, WM_MBUTTONDOWN, 0, 0); //绘图标志位复位
-
+			SELECTFINISHFLAG = true;
 		}
 		break;
 	case IDC_BUTTON_DRAW:
 		if (command == BN_CLICKED)    // 重绘按钮
 		{
+			if (!SELECTFINISHFLAG) {
+				//filename = view->getEditText();
+			}
+
 			//myData.readFile(filename, 5,ROWNUM, coordinateX, coordinateY, coordinateZ);
 			myData.readFile(filename, 5, numX, numY, numZ, ROWNUM, coordinateX, coordinateY, coordinateZ);
 
