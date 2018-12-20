@@ -7,7 +7,6 @@
 // CREATED: 2008-09-15
 // UPDATED: 2018-03-01
 ///////////////////////////////////////////////////////////////////////////////
-
 #define WIN32_LEAN_AND_MEAN             // exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
@@ -33,6 +32,7 @@ int mainMessageLoop(HACCEL hAccelTable=0);
 ///////////////////////////////////////////////////////////////////////////////
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdShow)
 {
+
     // register Trackbar control from comctl32.dll before creating windows
     INITCOMMONCONTROLSEX commonCtrls;
     commonCtrls.dwSize = sizeof(commonCtrls);
