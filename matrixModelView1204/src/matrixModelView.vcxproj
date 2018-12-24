@@ -206,8 +206,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\Win32OpenGL-master\Win32OpenGL\Win32OpenGL\Win32OpenGL.ico" />
+    <Image Include="bitmap1.bmp" />
     <Image Include="icon3.ico" />
+    <Image Include="icon4.ico" />
+    <Image Include="ifst128.jpg" />
+    <Image Include="iftsbig.ico" />
     <Image Include="iftsing.jpg" />
+    <Image Include="iftslogo.bmp" />
+    <Image Include="iftssmall.ico" />
     <Image Include="small.ico" />
     <Image Include="Win32OpenGL.ico" />
   </ItemGroup>

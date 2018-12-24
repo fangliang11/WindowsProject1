@@ -52,7 +52,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
     Win::ControllerMain mainCtrl;
 	//Win::ControllerFormGL FormGLCtrl(&modelGL, &viewFormGL);
 
-    Win::Window mainWin(hInst, L"三维点云图生成软件", 0, &mainCtrl); //注册 mainWin 窗口
+    Win::Window mainWin(hInst, L"三维点云图绘制软件", 0, &mainCtrl); //注册 mainWin 窗口
+	mainWin.setIcon(IDI_Win32OpenGL); //设置图标
     mainWin.setWindowStyleEx(WS_EX_WINDOWEDGE);  //设置窗口样式
     if(mainWin.create())
         Win::log("Main window is created.");

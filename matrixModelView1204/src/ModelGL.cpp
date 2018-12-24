@@ -16,7 +16,7 @@
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
-#include <GL/freeglut.h>
+#include <GL/gl.h>
 #endif
 
 #include <cmath>
@@ -42,6 +42,7 @@ const float CAMERA_DISTANCE = 25.0f;    // camera distance
 
 
 // flat shading ===========================================平面着色
+//顶点着色器
 const char* vsSource1 = R"(
 void main()
 {
@@ -49,6 +50,7 @@ void main()
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }
 )";
+//片段着色器
 const char* fsSource1 = R"(
 void main()
 {

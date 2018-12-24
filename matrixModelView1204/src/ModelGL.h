@@ -19,7 +19,7 @@
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
-#include <GL/freeglut.h>
+#include <GL/gl.h>
 #endif
 
 #include <string>

@@ -150,6 +150,24 @@
     <Image Include="Win32OpenGL.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="iftsbig.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="iftssmall.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icon4.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ifst128.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="iftslogo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="matrixModelView.exe.manifest" />

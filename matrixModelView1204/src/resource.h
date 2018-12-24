@@ -11,7 +11,10 @@
 #define IDI_ICON2                       114
 #define IDI_Win32OpenGL                 114
 #define IDI_ICON3                       116
-#define IDI_SMALL                       116
+#define IDI_ifts                        121
+#define IDI_IFTSSMALL                   124
+#define IDI_ICON4                       125
+#define IDB_BITMAP1                     128
 #define IDC_M_MV_0                      1001
 #define IDC_M_MV_1                      1002
 #define IDC_M_MV_2                      1003
@@ -138,7 +141,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        117
+#define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1131
 #define _APS_NEXT_SYMED_VALUE           101

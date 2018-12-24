@@ -114,9 +114,10 @@ CAPTION "Help"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDC_OK,242,129,50,14
-    CONTROL         "三维点云图显示程序\n\n在显示区域按住鼠标左键旋转，滚轮缩放。",IDC_SYSLINK1,"SysLink",WS_TABSTOP,7,13,196,33
-    LTEXT           "编制: 房亮\n单位: 浙江清华柔性电子技术研究院\n时间: 2018-11-26\n邮箱: fangliang1313@gmail.com",IDC_STATIC,7,90,125,46
-    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,218,7,74,67
+    CONTROL         "三维点云图显示程序\n\n在显示区域按住鼠标左键旋转，右键缩放，中键清除。\n默认选择3，4，5列",IDC_SYSLINK1,
+                    "SysLink",WS_TABSTOP,7,13,196,33
+    LTEXT           "编制: 房亮\n单位: 浙江清华柔性电子技术研究院\n时间: 2018-12-20\n邮箱: fangliang1313@gmail.com",IDC_STATIC,7,90,125,46
+    CONTROL         IDB_BITMAP1,IDC_STATIC,"Static",SS_BITMAP,212,7,80,74
 END
 
 
@@ -236,7 +237,19 @@ END
 // remains consistent on all systems.
 IDI_Win32OpenGL         ICON                    "Win32OpenGL.ico"
 
-IDI_SMALL               ICON                    "small.ico"
+IDI_ifts                ICON                    "D:\\Users\\fang\\Source\\Repos\\WindowsProject1\\matrixModelView1204\\src\\iftsbig.ico"
+
+IDI_IFTSSMALL           ICON                    "iftssmall.ico"
+
+IDI_ICON4               ICON                    "iftsbig.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP                  "iftslogo.bmp"
 
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////

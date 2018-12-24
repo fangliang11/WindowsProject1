@@ -164,6 +164,8 @@ int ReadData::readFile(string filename, int AXES_LEN, int column_num_X, int colu
 		vector<float> vectorY;
 		vector<float> vectorZ;
 
+		//fseek(myfile, 100, SEEK_SET);
+
 		string temp;
 		while (getline(myfile, temp))                    //利用getline（）读取每一行，并按照行为单位放入到vector
 		{

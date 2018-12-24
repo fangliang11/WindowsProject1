@@ -503,6 +503,16 @@ void reshape(int w, int h)
 
 }
 
+void show()
+{
+	// 清除屏幕
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//像素读图
+	glDrawPixels(width, height, GL_BGR_EXT, GL_UNSIGNED_BYTE, pixels);
+	//双缓存交换缓存以显示图像
+	glutSwapBuffers();
+}
+
 int main(int argc, char*argv[])
 {
 	glutInit(&argc, argv);
@@ -515,7 +525,7 @@ int main(int argc, char*argv[])
 
 	readData(columnX, columnY, columnZ);
 
-	glutDisplayFunc(display);
+	glutDisplayFunc(show);
 	glutReshapeFunc(reshape);
 	glutMouseFunc(mouseCB);
 	glutMotionFunc(mouseMotionCB);
