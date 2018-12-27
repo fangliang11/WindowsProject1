@@ -2,12 +2,21 @@
 *本程序实现3D可旋转缩放坐标系
 */
 
+#include <GL/glew.h>
+#include <GL/glut.h>
+
+// GLM Mathematics
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
 #include <sstream>
 #include <vector>
-#include <GL/freeglut.h>
+
 
 using namespace std;
 
@@ -24,6 +33,25 @@ GLfloat times = 1, times_n = 1;
 GLfloat scaleSizeX, scaleSizeY, scaleSizeZ;
 
 
+// Shaders
+const GLchar* vertexShaderSource = "#version 330 core\n"
+"layout (location = 0) in vec3 position;\n"
+"layout (location = 1) in vec3 color;\n"
+"out vec3 ourColor;\n"
+"void main()\n"
+"{\n"
+"gl_Position = vec4(position, 1.0);\n"
+"ourColor = color;\n"
+"}\0";
+const GLchar* fragmentShaderSource = "#version 330 core\n"
+"out vec4 color;\n"
+"uniform vec4 ourColor;\n"
+"void main()\n"
+"{\n"
+"color = ourColor;\n"
+"}\n\0";
+
+
 //程序初始化
 void init()
 {
@@ -34,6 +62,12 @@ void init()
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
+	glewExperimental = GL_TRUE;
+	// Initialize GLEW to setup the OpenGL Function pointers
+	glewInit();
+
+	// Define the viewport dimensions
+	glViewport(0, 0, WINDOW_WIDE, WINDOW_HEIGHT);
 
 }
 
@@ -503,15 +537,87 @@ void reshape(int w, int h)
 
 }
 
-void show()
-{
-	// 清除屏幕
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//像素读图
-	glDrawPixels(width, height, GL_BGR_EXT, GL_UNSIGNED_BYTE, pixels);
-	//双缓存交换缓存以显示图像
+void shader() {
+	// Build and compile our shader program
+// Vertex shader
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+	// Check for compile time errors
+	GLint success;
+	GLchar infoLog[512];
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+	// Fragment shader
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	// Check for compile time errors
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+	// Link shaders
+	GLuint shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+	// Check for linking errors
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+
+	// Set up vertex data (and buffer(s)) and attribute pointers
+	GLfloat vertices[] = {
+		// Positions        
+		 0.5f, -0.5f, 0.0f,  // Bottom Right
+		-0.5f, -0.5f, 0.0f,  // Bottom Left
+		 0.0f,  0.5f, 0.0f   // Top 
+	};
+	GLuint VBO, VAO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	// Position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0); // Unbind VAO
+
+			// Render
+		// Clear the colorbuffer
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// Be sure to activate the shader
+	glUseProgram(shaderProgram);
+
+	// Draw the triangle
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(0);
+
+
 	glutSwapBuffers();
+
 }
+
 
 int main(int argc, char*argv[])
 {
@@ -525,7 +631,7 @@ int main(int argc, char*argv[])
 
 	readData(columnX, columnY, columnZ);
 
-	glutDisplayFunc(show);
+	glutDisplayFunc(shader);
 	glutReshapeFunc(reshape);
 	glutMouseFunc(mouseCB);
 	glutMotionFunc(mouseMotionCB);
