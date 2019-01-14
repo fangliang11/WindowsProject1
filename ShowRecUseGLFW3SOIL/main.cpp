@@ -6,7 +6,7 @@
 #pragma comment (lib, "glew32d.lib")
 
 // GLFW
-#include <GL/glfw3.h>
+#include <GLFW/glfw3.h>
 
 // Other Libs
 #include <SOIL.h>
